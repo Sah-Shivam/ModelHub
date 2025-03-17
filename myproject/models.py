@@ -10,7 +10,7 @@ class Author(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=100)
 
-class Book(models.Model):  # First level foregin relation key 
+class Book(models.Model):  # First level foregin relation key establish
     title = models.CharField(max_length=100)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)      #one to Many
     Category = models.ManyToManyField(Category)   # Many to Many 
