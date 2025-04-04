@@ -93,7 +93,7 @@ class AwardSerializer(serializers.ModelSerializer):
         model = Award
         fields = '__all__'
 
-# Profile Serializer
+# Profile Serializers
 class ProfileSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
 
