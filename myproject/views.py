@@ -36,6 +36,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
 #     queryset = Category.objects.all()
 #     serializer_class = CategorySerializer
 
+
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -53,9 +55,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
 # class BookViewSet(viewsets.ModelViewSet):
 #     queryset = Book.objects.all()
 #     serializer_class = BookSerializer
-
-
-
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -84,6 +83,10 @@ class BookViewSet(viewsets.ModelViewSet):
         top_books = Book.objects.annotate(avg_rating=Avg('review__rating')).order_by('-avg_rating')[:10]
         serializer = BookSerializer(top_books, many=True)
         return Response(serializer.data)
+
+
+
+
 
 # Publisher ViewSet
 class PublisherViewSet(viewsets.ModelViewSet):

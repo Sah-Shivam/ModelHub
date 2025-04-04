@@ -7,6 +7,8 @@ from .models import Author, Category, Book, Publisher, Award, Profile, Review, P
 #         model = Author
 #         fields = '__all__'
 
+
+
 class AuthorSerializer(serializers.ModelSerializer):
     book_count = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
@@ -21,8 +23,6 @@ class AuthorSerializer(serializers.ModelSerializer):
     def get_average_rating(self, obj):
         from django.db.models import Avg
         return obj.book_set.all().aggregate(avg_rating=Avg('review__rating'))['avg_rating']
-
-
 
 
 # Category Serializer
@@ -53,6 +53,30 @@ class BasicBookSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Book
 #         fields = '__all__'
+
+class BookSerializer(serializers.ModelSerializer):
+    author = BasicAuthorSerializer(read_only=True)
+    author_id = serializers.PrimaryKeyRelatedField(
+        queryset=Author.objects.all(), 
+        source='author', 
+        write_only=True
+    )
+    categories = BasicCategorySerializer(source='Category', many=True, read_only=True)
+    category_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(), 
+        source='Category', 
+        many=True, 
+        write_only=True
+    )
+    publisher = BasicPublisherSerializer(read_only=True)
+    publisher_id = serializers.PrimaryKeyRelatedField(
+        queryset=Publisher.objects.all(),
+        source='publisher',
+        write_only=True,
+        required=False
+    )
+    average_rating = serializers.SerializerMethodField()
+    review_count = serializers.SerializerMethodField()
 
 
 # Publisher Serializer
